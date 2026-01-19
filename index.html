@@ -1,86 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
   <title>AI Notes Maker</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f8ff;
-      padding: 20px;
-    }
-    h1 {
-      color: #2c5cff;
-    }
-    textarea {
-      width: 100%;
-      height: 150px;
-      padding: 10px;
-      margin-top: 10px;
-    }
-    select, button {
-      margin-top: 10px;
-      padding: 10px;
-      font-size: 16px;
-    }
-    #output {
-      margin-top: 20px;
-      background: #fff;
-      padding: 15px;
-      border-radius: 5px;
-      white-space: pre-line;
-    }
-  </style>
 </head>
 <body>
 
-  <h1>AI Notes Maker 📘</h1>
+  <h2>AI Notes Maker</h2>
 
-  <label>Apna text paste karo:</label>
-  <textarea id="inputText" placeholder="Yahan notes paste karo..."></textarea>
-  <div id="output"></div>div>
-  <br>
+  <textarea id="inputText" placeholder="Yaha text likho" rows="6" cols="50"></textarea>
+  <br><br>
+  <button id="btn">Generate Notes</button>
 
-  <label>Mode select karo:</label>
-  <br>
-  <select id="mode">
-    <option value="exam">Exam Mode</option>
-    <option value="revision">Revision Mode</option>
-    <option value="concept">Concept Mode</option>
-  </select>
+  <p id="output"></p>
 
-  <br>
+  <script>
+    document.getElementById("btn").addEventListener("click", async () => {
+      document.getElementById("output").innerText = "⏳ AI soch raha he...";
 
-  <button onclick="generateNotes()">Generate Notes</button>
+      try {
+        const res = await fetch("/api/ai", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            text: document.getElementById("inputText").value
+          })
+        });
 
-  <div id="output"></div>
-
-<script>
-async function generateNotes() {
-  const input = document.getElementById("inputText")?.value || "test";
-
-  document.getElementById("output").innerText = "⏳ AI soch raha he...";
-
-  try {
-    const res = await fetch("/api/ai", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ text: input })
+        const data = await res.json();
+        document.getElementById("output").innerText = data.notes;
+      } catch (e) {
+        document.getElementById("output").innerText = "❌ API error";
+      }
     });
-
-    const data = await res.json();
-    document.getElementById("output").innerText = data.notes;
-  } catch (err) {
-    document.getElementById("output").innerText = "❌ API call fail ho gaya";
-  }
-}
-</script>
-
+  </script>
 
 </body>
 </html>
-
-
-
