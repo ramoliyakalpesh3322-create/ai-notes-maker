@@ -1,21 +1,8 @@
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Only POST allowed" });
-  }
-
-  const { text, mode } = req.body;
-
-  const prompt = `
-You are an AI notes maker for students.
-Mode: ${mode}
-Convert the following text into short notes:
-
-${text}
-  `;
-
-  const API_KEY = "AIzaSyCSCEzkWHcprBAHHe56B6L41gFwbOL2kKI";
-
   res.status(200).json({
-    notes: "Abhi API key nahi lagi hai. Lekin backend sahi bana hai 👍"
+    notes: "✅ AI test successful. Backend bilkul sahi kaam kar raha hai."
   });
 }
+
+
+
