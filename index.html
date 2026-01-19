@@ -38,7 +38,7 @@
 
   <label>Apna text paste karo:</label>
   <textarea id="inputText" placeholder="Yahan notes paste karo..."></textarea>
-
+  <div id="output"></div>div>
   <br>
 
   <label>Mode select karo:</label>
@@ -55,30 +55,32 @@
 
   <div id="output"></div>
 
- <script>
+<script>
 async function generateNotes() {
-  const text = document.getElementById("inputText").value;
-  const mode = document.getElementById("mode").value;
+  const input = document.getElementById("inputText")?.value || "test";
 
-  if (text.trim() === "") {
-    alert("Pehle text likho");
-    return;
+  document.getElementById("output").innerText = "⏳ AI soch raha he...";
+
+  try {
+    const res = await fetch("/api/ai", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ text: input })
+    });
+
+    const data = await res.json();
+    document.getElementById("output").innerText = data.notes;
+  } catch (err) {
+    document.getElementById("output").innerText = "❌ API call fail ho gaya";
   }
-
-  document.getElementById("output").innerText = "AI soch raha hai...";
-
-  const res = await fetch("/api/ai", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text, mode })
-  });
-
-  const data = await res.json();
-  document.getElementById("output").innerText = data.notes;
 }
 </script>
 
+
 </body>
 </html>
+
 
 
