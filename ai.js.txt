@@ -1,8 +1,9 @@
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
   res.status(200).json({
-    notes: "✅ AI test successful. Backend bilkul sahi kaam kar raha hai."
+    notes: "✅ API route kaam kar raha hai. Vercel backend OK."
   });
-}
+};
+
 
 
 
