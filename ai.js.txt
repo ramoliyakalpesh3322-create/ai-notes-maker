@@ -1,6 +1,6 @@
-module.exports = async (req, res) => {
+module.exports = (req, res) => {
   res.status(200).json({
-    notes: "✅ API route kaam kar raha hai. Vercel backend OK."
+    notes: "✅ FINAL TEST: API route 100% kaam kar raha hai"
   });
 };
 
